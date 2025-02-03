@@ -10,6 +10,16 @@ export const createUser = async (data) => {
   }
 };
 
+export const getUserById = async (id) => {
+  try {
+    const user = await User.findById(id);
+    return user;
+  } catch (error) {
+    console.log("Error in getUserById Repository", error);
+    throw error;
+  }
+};
+
 export const getUserByEmail = async (email) => {
   try {
     const user = await User.findOne({ email });
