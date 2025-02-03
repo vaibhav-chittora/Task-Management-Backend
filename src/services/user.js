@@ -61,10 +61,14 @@ export async function signInService(userData) {
     }
 
     const token = JWT.sign(
-      { username: user.username, email: user.email },
+      {
+        id: user._id,
+        username: user.username,
+        email: user.email,
+      },
       JWT_SECRET,
       {
-        expiresIn: "1d",
+        expiresIn: "1h",
       }
     );
 

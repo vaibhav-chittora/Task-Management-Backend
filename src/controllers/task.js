@@ -3,9 +3,9 @@ import { createTaskService } from "../services/task.js";
 
 export const createTaskController = async (req, res) => {
   try {
-    const { id } = req.headers;
 
-    const user = await getUserById(id);
+    const user = await getUserById(req.user);
+    console.log("User in createTaskController", user);
 
     if (!user) {
       throw {
@@ -24,7 +24,8 @@ export const createTaskController = async (req, res) => {
       status,
     });
 
-    await updateUserById(id, {
+    // updating the user's tasks array with the new task's id
+    await updateUserById(req.user, {
       tasks: [...user.tasks, newTask._id],
     });
     return res.status(201).json({
