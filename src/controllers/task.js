@@ -1,9 +1,7 @@
 import { getUserById, updateUserById } from "../repositories/user.js";
 import { createTaskService } from "../services/task.js";
-
 export const createTaskController = async (req, res) => {
   try {
-
     const user = await getUserById(req.user);
     console.log("User in createTaskController", user);
 
@@ -44,6 +42,32 @@ export const createTaskController = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while creating the task",
+    });
+  }
+};
+
+export const getAllTaskController = async (req, res) => {
+  try {
+    const user = await getUserById(req.user);
+    if (!user) {
+      throw {
+        success: false,
+        status: 400,
+        message: "user not found",
+      };
+    }
+
+    // const tasks = await getAllTaskService();
+    return res.status(200).json({
+      success: true,
+      message: "Tasks fetched successfully",
+      data: user.tasks,
+    });
+  } catch (error) {
+    console.log("Error in getAllTaskController", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching the tasks",
     });
   }
 };

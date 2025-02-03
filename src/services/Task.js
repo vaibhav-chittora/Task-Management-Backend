@@ -1,4 +1,4 @@
-import { createTask } from "../repositories/task.js";
+import { createTask, getAllTasks } from "../repositories/task.js";
 import { getUserById, updateUserById } from "../repositories/user.js";
 
 export const createTaskService = async ({ title, description, status }) => {
@@ -20,3 +20,13 @@ export const createTaskService = async ({ title, description, status }) => {
     throw error;
   }
 };
+
+// export const getAllTaskService = async (id) => {
+//   try {
+//     const user = await getUserById(id);
+//     const tasks = await getAllTasks();
+//   } catch (error) {
+//     console.log("Error in getAllTaskService", error);
+//     throw error;
+//   }
+// };

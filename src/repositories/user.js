@@ -12,7 +12,9 @@ export const createUser = async (data) => {
 
 export const getUserById = async (id) => {
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("tasks").sort({
+      createdAt: -1,
+    });
     return user;
   } catch (error) {
     console.log("Error in getUserById Repository", error);

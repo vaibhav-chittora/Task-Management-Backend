@@ -16,7 +16,7 @@ export const isAuthenticated = async (req, res, next) => {
 
     // verifying the token using JWT
     const response = JWT.verify(token, JWT_SECRET);
-    console.log("response", response);
+    // console.log("response", response);
 
     // if token is invalid or expired
     if (!response) {
