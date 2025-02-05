@@ -1,5 +1,10 @@
 import { getUserById, updateUserById } from "../repositories/user.js";
-import { createTaskService, deleteTaskByIdService } from "../services/task.js";
+import {
+  createTaskService,
+  deleteTaskByIdService,
+  updateImportantTaskByIdService,
+  updateTaskByIdService,
+} from "../services/task.js";
 export const createTaskController = async (req, res) => {
   try {
     const user = await getUserById(req.user);
@@ -112,6 +117,71 @@ export const deleteTaskByIdController = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while deleting the task.",
+      data: error.message,
+    });
+  }
+};
+
+export const updateTaskByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, description } = req.body;
+    // const user = await getUserById(req.user);
+    // if (!user) {
+    //   throw {
+    //     success: false,
+    //     status: 400,
+    //     message: "Authenticate yourself to update the task",
+    //   };
+    // }
+    const updatedTask = await updateTaskByIdService(id, title, description);
+    return res.status(200).json({
+      success: true,
+      message: "Task updated successfully",
+      data: updatedTask,
+    });
+  } catch (error) {
+    console.log("Error in updateTaskByIdController", error);
+    if (error.status) {
+      return res.status(error.status).json({
+        success: false,
+        message: error.message,
+      });
+    }
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while updating the task.",
+      data: error.message,
+    });
+  }
+};
+
+export const updateImportantTaskByIdController = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // const { important } = req.body;
+    let { important } = req.body;
+
+    // Convert "true"/"false" (string) to actual boolean values
+    important = JSON.parse(important === "true" ? "true" : "false");
+
+    const updatedTask = await updateImportantTaskByIdService(id, important);
+    return res.status(200).json({
+      success: true,
+      message: "Task updated successfully",
+      data: updatedTask,
+    });
+  } catch (error) {
+    console.log("Error in updateImportantTaskByIdController", error);
+    if (error.status) {
+      return res.status(error.status).json({
+        success: false,
+        message: error.message,
+      });
+    }
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while updating the task.",
       data: error.message,
     });
   }
