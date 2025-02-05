@@ -1,6 +1,7 @@
 import {
   createTask,
   deleteTaskById,
+  getAllTasks,
   updateTaskById,
 } from "../repositories/task.js";
 
@@ -11,6 +12,28 @@ export const createTaskService = async ({ title, description, status }) => {
   } catch (error) {
     console.log("Error in createTaskService", error);
 
+    throw error;
+  }
+};
+
+export const getImportantTaskService = async () => {
+  try {
+    const tasks = await getAllTasks();
+    console.log("tasks in getImportantTaskService", tasks);
+    return tasks;
+  } catch (error) {
+    console.log("Error in getImportantTaskService", error);
+    throw error;
+  }
+};
+
+export const getPendingTaskService = async () => {
+  try {
+    const tasks = await getAllTasks();
+    console.log("tasks in getPendingTaskService", tasks);
+    return tasks;
+  } catch (error) {
+    console.log("Error in getPendingTaskService", error);
     throw error;
   }
 };

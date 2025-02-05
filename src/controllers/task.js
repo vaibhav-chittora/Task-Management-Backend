@@ -2,6 +2,8 @@ import { getUserById, updateUserById } from "../repositories/user.js";
 import {
   createTaskService,
   deleteTaskByIdService,
+  getImportantTaskService,
+  getPendingTaskService,
   updateImportantTaskByIdService,
   updateTaskByIdService,
 } from "../services/task.js";
@@ -73,6 +75,59 @@ export const getAllTaskController = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while fetching the tasks",
+    });
+  }
+};
+
+// get all important tasks
+export const getImportantTaskController = async (req, res) => {
+  try {
+    const tasks = await getImportantTaskService();
+
+    // console.log(  "tasks in getImportantTaskController",tasks.filter((task) => task.important));
+
+    //fetching only the important tasks
+    const importantTasks = tasks.filter((task) => task.important);
+
+    // const importantTasks =
+    return res.status(200).json({
+      success: true,
+      message: "Important Tasks fetched successfully",
+      data: importantTasks,
+    });
+  } catch (error) {
+    console.log("Error in getImportantTaskController", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching the important tasks",
+    });
+  }
+};
+
+// get all pending tasks
+
+export const getPendingTaskController = async (req, res) => {
+  try {
+    const tasks = await getPendingTaskService();
+
+    console.log("tasks in getPendingTaskController", tasks);
+    const pendingtasks = tasks.filter((task) => task.status === "pending");
+    return res.status(200).json({
+      success: true,
+      message: "Pending Tasks fetched successfully",
+      data: pendingtasks,
+    });
+  } catch (error) {
+    console.log("Error in getPendingTaskController", error);
+    if (error.status) {
+      return res.status(error.status).json({
+        success: false,
+        message: error.message,
+      });
+    }
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching the pending tasks",
     });
   }
 };

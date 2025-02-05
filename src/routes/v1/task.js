@@ -3,6 +3,8 @@ import {
   createTaskController,
   deleteTaskByIdController,
   getAllTaskController,
+  getImportantTaskController,
+  getPendingTaskController,
   updateImportantTaskByIdController,
   updateTaskByIdController,
 } from "../../controllers/task.js";
@@ -15,6 +17,10 @@ const router = express.Router();
 router.post("/create-task", isAuthenticated, createTaskController);
 
 router.get("/all-tasks", isAuthenticated, getAllTaskController);
+
+router.get("/important-tasks", isAuthenticated, getImportantTaskController);
+
+router.get("/pending-tasks", isAuthenticated, getPendingTaskController);
 
 router.delete("/delete-task/:id", isAuthenticated, deleteTaskByIdController);
 
