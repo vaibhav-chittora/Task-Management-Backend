@@ -2,12 +2,14 @@ import express from "express";
 import { PORT } from "./config/serverConfig.js";
 import connectDB from "./config/dbConfig.js";
 import apiRouter from "./routes/apiRouter.js";
+import cors from "cors";
 
 const app = express();
 
 app.use(express.json());
 app.use(express.text());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 //api routes here
 app.use("/api", apiRouter);
