@@ -125,16 +125,13 @@ export const deleteTaskByIdController = async (req, res) => {
 export const updateTaskByIdController = async (req, res) => {
   try {
     const { id } = req.params;
-    const { title, description } = req.body;
-    // const user = await getUserById(req.user);
-    // if (!user) {
-    //   throw {
-    //     success: false,
-    //     status: 400,
-    //     message: "Authenticate yourself to update the task",
-    //   };
-    // }
-    const updatedTask = await updateTaskByIdService(id, title, description);
+    const { title, description, status } = req.body;
+    const updatedTask = await updateTaskByIdService(
+      id,
+      title,
+      description,
+      status
+    );
     return res.status(200).json({
       success: true,
       message: "Task updated successfully",

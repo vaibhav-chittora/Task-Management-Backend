@@ -26,6 +26,10 @@ router.put(
   updateImportantTaskByIdController
 );
 
-// router.put("/update-task-status/:id", isAuthenticated, updateTaskByIdController);
+router.put(
+  "/update-task/status/:id",
+  isAuthenticated,
+  updateTaskByIdController
+);
 
 export default router;

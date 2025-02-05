@@ -33,9 +33,9 @@ export const deleteTaskByIdService = async (id) => {
 };
 
 // update task service
-export const updateTaskByIdService = async (id, title, description) => {
+export const updateTaskByIdService = async (id, title, description, status) => {
   try {
-    const task = await updateTaskById(id, { title, description });
+    const task = await updateTaskById(id, { title, description, status });
     if (!task) {
       throw {
         success: false,
