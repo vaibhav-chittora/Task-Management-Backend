@@ -1,5 +1,5 @@
 import { getUserById, updateUserById } from "../repositories/user.js";
-import { createTaskService } from "../services/task.js";
+import { createTaskService, deleteTaskByIdService } from "../services/task.js";
 export const createTaskController = async (req, res) => {
   try {
     const user = await getUserById(req.user);
@@ -68,6 +68,51 @@ export const getAllTaskController = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Something went wrong while fetching the tasks",
+    });
+  }
+};
+
+// Delete Task Controller
+export const deleteTaskByIdController = async (req, res) => {
+  try {
+    //task id from the params
+    const { id } = req.params;
+    // user id from the request
+    const user = await getUserById(req.user);
+
+    console.log("user in deleteTaskController", user);
+
+    if (!user) {
+      throw {
+        success: false,
+        status: 400,
+        message: "user not found",
+      };
+    }
+
+    console.log("user Tasks", user.tasks);
+
+    // updating the user's tasks array by removing the task with the given id
+    await updateUserById(user._id, {
+      tasks: user.tasks.filter((task) => task._id.toString() !== id), // filter out the task with the given id
+    });
+
+    // deleting the task from the task collection database
+    const response = await deleteTaskByIdService(id);
+
+    console.log("User Data after deleting the task", user);
+
+    return res.status(200).json({
+      success: true,
+      message: "Task deleted successfully",
+      data: response,
+    });
+  } catch (error) {
+    console.log("Error in deleteTaskController", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while deleting the task.",
+      data: error.message,
     });
   }
 };
