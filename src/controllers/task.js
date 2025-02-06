@@ -215,7 +215,8 @@ export const updateImportantTaskByIdController = async (req, res) => {
     let { important } = req.body;
 
     // Convert "true"/"false" (string) to actual boolean values
-    important = JSON.parse(important === "true" ? "true" : "false");
+    // important = JSON.parse(important === "true" ? "true" : "false");
+    // important = important === "true" ? true : false;
 
     const updatedTask = await updateImportantTaskByIdService(id, important);
     return res.status(200).json({
