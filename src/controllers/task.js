@@ -2,6 +2,7 @@ import { getUserById, updateUserById } from "../repositories/user.js";
 import {
   createTaskService,
   deleteTaskByIdService,
+  getCompletedTaskService,
   getImportantTaskService,
   getPendingTaskService,
   updateImportantTaskByIdService,
@@ -132,6 +133,31 @@ export const getPendingTaskController = async (req, res) => {
   }
 };
 
+export const getCompletedTaskController = async (req, res) => {
+  try {
+    const tasks = await getCompletedTaskService();
+    console.log("tasks in getCompletedTaskController", tasks);
+    const completedTasks = tasks.filter((task) => task.status === "completed");
+    return res.status(200).json({
+      success: true,
+      message: "Completed Tasks fetched successfully",
+      data: completedTasks,
+    });
+  } catch (error) {
+    console.log("Error in getCompletedTaskController", error);
+    if (error.status) {
+      return res.status(error.status).json({
+        success: false,
+        message: error.message,
+      });
+    }
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching the completed tasks",
+    });
+  }
+};
+
 // Delete Task Controller
 export const deleteTaskByIdController = async (req, res) => {
   try {
@@ -213,10 +239,7 @@ export const updateImportantTaskByIdController = async (req, res) => {
     const { id } = req.params;
     // const { important } = req.body;
     let { important } = req.body;
-
-    // Convert "true"/"false" (string) to actual boolean values
-    // important = JSON.parse(important === "true" ? "true" : "false");
-    // important = important === "true" ? true : false;
+    important = important === "true" || important === true;
 
     const updatedTask = await updateImportantTaskByIdService(id, important);
     return res.status(200).json({

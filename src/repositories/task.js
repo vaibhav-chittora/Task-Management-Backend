@@ -20,6 +20,16 @@ export const getAllTasks = async () => {
   }
 };
 
+export const getAllTasksByStatus = async (status) => {
+  try {
+    const tasks = await Task.find({ status });
+    return tasks;
+  } catch (error) {
+    console.log("Error in getAllTasksByStatus Repository", error);
+    throw error;
+  }
+};
+
 export const getTaskById = async (id) => {
   try {
     const task = await Task.findById(id);

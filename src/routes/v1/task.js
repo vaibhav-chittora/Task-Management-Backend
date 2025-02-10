@@ -3,6 +3,7 @@ import {
   createTaskController,
   deleteTaskByIdController,
   getAllTaskController,
+  getCompletedTaskController,
   getImportantTaskController,
   getPendingTaskController,
   updateImportantTaskByIdController,
@@ -19,6 +20,8 @@ router.post("/create-task", isAuthenticated, createTaskController);
 router.get("/all-tasks", isAuthenticated, getAllTaskController);
 
 router.get("/important-tasks", isAuthenticated, getImportantTaskController);
+
+router.get("/completed-tasks", isAuthenticated, getCompletedTaskController);
 
 router.get("/pending-tasks", isAuthenticated, getPendingTaskController);
 

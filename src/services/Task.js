@@ -1,9 +1,10 @@
 import {
   createTask,
   deleteTaskById,
-  getAllTasks,
+  getAllTasksByStatus,
   updateTaskById,
 } from "../repositories/task.js";
+import Task from "../schema/task.js";
 
 export const createTaskService = async ({ title, description, status }) => {
   try {
@@ -18,7 +19,7 @@ export const createTaskService = async ({ title, description, status }) => {
 
 export const getImportantTaskService = async () => {
   try {
-    const tasks = await getAllTasks();
+    const tasks = await Task.find({ important: true });
     console.log("tasks in getImportantTaskService", tasks);
     return tasks;
   } catch (error) {
@@ -29,11 +30,22 @@ export const getImportantTaskService = async () => {
 
 export const getPendingTaskService = async () => {
   try {
-    const tasks = await getAllTasks();
+    const tasks = await Task.find({ status: "pending" });
     console.log("tasks in getPendingTaskService", tasks);
     return tasks;
   } catch (error) {
     console.log("Error in getPendingTaskService", error);
+    throw error;
+  }
+};
+
+export const getCompletedTaskService = async () => {
+  try {
+    const tasks = await getAllTasksByStatus("completed");
+    console.log("tasks in getCompletedTaskService", tasks);
+    return tasks;
+  } catch (error) {
+    console.log("Error in getCompletedTaskService", error);
     throw error;
   }
 };
@@ -75,6 +87,7 @@ export const updateTaskByIdService = async (id, title, description, status) => {
 
 export const updateImportantTaskByIdService = async (id, important) => {
   try {
+    important = important === "true" || important === true;
     const task = await updateTaskById(id, { important });
     console.log("Task Data", task);
     if (!task) {
