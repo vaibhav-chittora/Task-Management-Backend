@@ -74,6 +74,7 @@ export async function signInService(userData) {
 
     return {
       user,
+      avatar: user.avatar,
       token,
     };
   } catch (error) {

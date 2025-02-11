@@ -23,6 +23,9 @@ const userSchema = new mongoose.Schema(
       required: [true, "Password is required"],
       minlength: [3, "Password must be at least 8 characters long"],
     },
+    avatar: {
+      type: String,
+    },
     tasks: [
       {
         type: mongoose.Schema.Types.ObjectId,
@@ -38,6 +41,7 @@ userSchema.pre("save", function encryptPassword(next) {
   const salt = 10;
   const hashedPassword = bcrypt.hashSync(user.password, salt);
   user.password = hashedPassword;
+  user.avatar = `https://robohash.org/${user.username}`;
   next();
 });
 
