@@ -16,9 +16,10 @@ A robust REST API backend service for managing tasks and todos efficiently. Buil
 - Node.js
 - Express.js
 - MongoDB
-- Mongoose ODM
+- Mongoose ODM for Database Interaction
 - CORS
-- Other dependencies (express-validator, etc.)
+- JWT Authentication
+- Bcrypt for password hashing
 
 ## Getting Started
 
@@ -34,13 +35,11 @@ A robust REST API backend service for managing tasks and todos efficiently. Buil
 
 ```bash
 git clone https://github.com/vaibhav-chittora/Task-Management-Backend.git
-
 ```
 
 2. Navigate to the project directory
 
 ```bash
-
 cd Task-Management-Backend
 ```
 
@@ -68,20 +67,37 @@ npm start
 The API will be accessible at
 
 ```bash
- http://localhost:3000
+LIVE URL - https://task-management-backend-qgen.onrender.com
 ```
 
-## API Endpoints
+OR
 
-## API Endpoints
+```bash
+LOCALHOST -  http://localhost:3000/api/v1/
+```
 
-| Method | Endpoint            | Description       |
-| ------ | ------------------- | ----------------- |
-| GET    | `/api/v1/tasks`     | Get all tasks     |
-| POST   | `/api/v1/tasks`     | Create new task   |
-| GET    | `/api/v1/tasks/:id` | Get specific task |
-| PUT    | `/api/v1/tasks/:id` | Update task       |
-| DELETE | `/api/v1/tasks/:id` | Delete task       |
+# API Endpoints
+
+## Auth -
+
+| Method | Endpoint      | Description         |
+| ------ | ------------- | ------------------- |
+| POST   | `user/signup` | Register a new User |
+| POST   | `user/signin` | Login User          |
+
+## Tasks -
+
+| Method | Endpoint                         | Description              |
+| ------ | -------------------------------- | ------------------------ |
+| POST   | `task/create-task`               | Create new task          |
+| GET    | `task/all-tasks`                 | Get all tasks            |
+| GET    | `task/important-tasks`           | Get important tasks      |
+| GET    | `task/pending-tasks`             | Get pending tasks        |
+| GET    | `task/completed-tasks`           | Get completed tasks      |
+| PUT    | `task/update-task/:id`           | Update task by ID        |
+| PUT    | `task/update-task/important/:id` | Update task as important |
+| PUT    | `/task/update-task/status/:id`   | Update task status by ID |
+| DELETE | `task/delete-task/:id`           | Delete task by ID        |
 
 ## Architecture & Design Patterns
 
